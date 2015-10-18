@@ -1,0 +1,8 @@
+sudo apt-get install pip
+
+pip install flask
+
+
+sudo pip install flask-wtf
+
+sudo apt-get install python-mysqldb
