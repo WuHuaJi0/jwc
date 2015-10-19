@@ -1,17 +1,42 @@
-from flask import Flask,render_template
+#encoding:utf-8
+from flask import Flask,render_template,request
+from flask.ext.bootstrap import Bootstrap
+# import auth
 
+# 导入表单
 from flask.ext.wtf import Form
-from wtforms import StringField,SubmitField
-from wtforms.validators import Required,Length
+from wtforms import StringField, SubmitField,PasswordField
+from wtforms.validators import Required
+
 
 app = Flask(__name__)
+
+bootstrap = Bootstrap(app)
 
 app.config['SECRET_KEY'] = 'HELLO'
 
 
-@app.route('/')
+
+class NameForm(Form):
+    txtUserName = StringField('What is your name?', validators=[Required()])
+    txtUserPassword = PasswordField('What is your name?', validators=[Required()])
+    submit = SubmitField('Submit')
+
+
+@app.route('/', methods=['GET', 'POST'])
 def index():
-    return render_template('index.html')
+    form = NameForm()
+    if form.validate_on_submit():
+        # name = form.name.data
+        # form.name.data = ''
+    return render_template('index.html', form=form, name=name)
+
+
+
+@app.route('/test')
+def test():
+    return render_template('test.html')
+
 
 if __name__ == '__main__':
     app.run(debug=True)

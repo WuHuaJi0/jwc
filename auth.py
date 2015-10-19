@@ -54,7 +54,7 @@ def createHeaders(cookie):
 def getImage(headers):
     url = "http://210.42.38.26:84/jwc_glxt/ValidateCode.aspx"
     r = ctgu_request.get(url,headers = headers)
-    i = Image.open(StringIO(r.content)).save('code.jpg')
+    i = Image.open(StringIO(r.content)).save('templates/static/code.jpg')
 
 
 def login(__VIEWSTATE,__EVENTVALIDATION,headers):
@@ -93,7 +93,7 @@ def logOut(headers):
     logOut_url = 'http://210.42.38.26:84/jwc_glxt/Login.aspx?xttc=1'
     page = ctgu_request.get(logOut_url,headers=headers).text
 
-if __name__ == '__main__':
+def start():
     (cookie,__VIEWSTATE,__EVENTVALIDATION) = init()
     headers = createHeaders(cookie)
     getImage(headers)
