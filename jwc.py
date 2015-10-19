@@ -8,18 +8,10 @@ app = Flask(__name__)
 
 app.config['SECRET_KEY'] = 'HELLO'
 
-class NameForm(Form):
-    name = StringField('what is your name',validators=[Required(),Length(1,16)])
-    submit = SubmitField('submit')
 
-@app.route('/',methods=['GET','POST'])
+@app.route('/')
 def index():
-    name = None
-    form = NameForm()
-    if form.validate_on_submit():
-        name = form.name.data
-        form.name.data=''
-    return render_template('form.html',form=form,name=name)
+    return render_template('index.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

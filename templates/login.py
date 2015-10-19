@@ -64,7 +64,7 @@ def login(__VIEWSTATE,__EVENTVALIDATION,cookie):
         'Referer': 'http://210.42.38.26:84/jwc_glxt/Login.aspx?xttc=1'
     }
 
-    headers = dict(headers)
+    # headers = dict(headers)
     CheckCode = raw_input('please input code')
     print CheckCode
     form = {
@@ -77,15 +77,9 @@ def login(__VIEWSTATE,__EVENTVALIDATION,cookie):
         '__EVENTVALIDATION':__EVENTVALIDATION
     }
     data = urllib.urlencode(form)
-
-    # print data
-    # data = '__VIEWSTATE=%2FwEPDwUKMTQ4NjM5NDA3OWQYAQUeX19Db250cm9sc1JlcXVpcmVQb3N0QmFja0tleV9fFgEFCGJ0bkxvZ2luU077LK9itKNe3fhI7aoZZ%2BS5Ryo%3D&txtUserName=2012136121&btnLogin.x=0&btnLogin.y=0&txtPassword=uniquedream456&CheckCode=wdr3&__EVENTVALIDATION=%2FwEWBQKOmrqLAwKl1bKzCQKC3IeGDAK1qbSRCwLO44u1DVzfq830wXTY29pyqB1kTMdgWLfG'
-
     login_url = "http://210.42.38.26:84/jwc_glxt/Login.aspx?xttc=1"
-
     result = ctgu_request.post(login_url,headers=headers,data=data)
-    # print result.content
-    # print result.status_code
+
 
 
 
