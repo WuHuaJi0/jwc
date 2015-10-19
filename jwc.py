@@ -19,17 +19,17 @@ app.config['SECRET_KEY'] = 'HELLO'
 
 class NameForm(Form):
     txtUserName = StringField('What is your name?', validators=[Required()])
-    txtUserPassword = PasswordField('What is your name?', validators=[Required()])
+    txtUserPassword = PasswordField('What is your password?', validators=[Required()])
     submit = SubmitField('Submit')
-
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
     form = NameForm()
     if form.validate_on_submit():
-        # name = form.name.data
-        # form.name.data = ''
-    return render_template('index.html', form=form, name=name)
+        username = form.txtUserName.data
+        txtUserPassword = form.txtUserPassword.data
+
+    return render_template('index.html', form=form)
 
 
 
