@@ -54,17 +54,16 @@ def createHeaders(cookie):
 def getImage(headers):
     url = "http://210.42.38.26:84/jwc_glxt/ValidateCode.aspx"
     r = ctgu_request.get(url,headers = headers)
-    i = Image.open(StringIO(r.content)).save('templates/static/code.jpg')
+    i = Image.open(StringIO(r.content)).save('static/img/code.jpg')
 
 
-def login(__VIEWSTATE,__EVENTVALIDATION,headers):
-    CheckCode = raw_input('please input code')
+def login(__VIEWSTATE,__EVENTVALIDATION,headers,username,password,CheckCode):
     form = {
         '__VIEWSTATE':__VIEWSTATE,
-        'txtUserName':2012136121    ,
+        'txtUserName':username    ,
         'btnLogin.x': 0,
         'btnLogin.y': 0,
-        'txtPassword':'uniquedream456',
+        'txtPassword':password,
         'CheckCode':CheckCode,
         '__EVENTVALIDATION':__EVENTVALIDATION
     }
@@ -93,14 +92,20 @@ def logOut(headers):
     logOut_url = 'http://210.42.38.26:84/jwc_glxt/Login.aspx?xttc=1'
     page = ctgu_request.get(logOut_url,headers=headers).text
 
-def start():
-    (cookie,__VIEWSTATE,__EVENTVALIDATION) = init()
-    headers = createHeaders(cookie)
-    getImage(headers)
-    login(__VIEWSTATE,__EVENTVALIDATION,headers)
-    try:
-        getGrade(headers)
-    except:
-        pass
-    finally:
-        logOut(headers)
+
+# def start():
+#     (cookie,__VIEWSTATE,__EVENTVALIDATION) = init()
+#     headers = createHeaders(cookie)
+#     getImage(headers)
+#     login(__VIEWSTATE,__EVENTVALIDATION,headers)
+#     try:
+#         getGrade(headers)
+#     except:
+#         pass
+#     finally:
+#         logOut(headers)
+
+# if __name__ == '__main__':
+#     (cookie,__VIEWSTATE,__EVENTVALIDATION) = init()
+#     headers = createHeaders(cookie)
+#     getImage(headers)
