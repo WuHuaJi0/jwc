@@ -24,6 +24,7 @@ def init():
 
     r = ctgu_request.get(url)
     page = r.text
+
     cookie = r.cookies['ASP.NET_SessionId']
     soup = BeautifulSoup(page)
     __VIEWSTATE = soup.find(attrs={'name':'__VIEWSTATE'})['value']
@@ -79,8 +80,6 @@ def getGrade(headers):
     if result:
         soup = BeautifulSoup(result.text)
         tr_title = soup.find(attrs={'class':'HeaderStyle'})
-        # print tr_title
-
         tr_chengji = tr_title.find_next_siblings()
 
         for child in tr_chengji[0].children:
