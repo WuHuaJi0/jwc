@@ -40,7 +40,7 @@ def createHeaders(cookie):
         'Accept-Encoding':'gzip, deflate, sdch',
         'Origin':'http://210.42.38.26:84',
         'Accept-Language':'zh-CN,zh;q=0.8,en;q=0.6,zh-TW;q=0.4',
-        'Cache-Control':'no-store',
+        'Cache-Control':'max-age=0',
         'Connection':'keep-alive',
         'Host':'210.42.38.26:84',
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -58,14 +58,15 @@ def getImage(headers):
     i = Image.open(StringIO(r.content)).save('static/img/code.jpg')
 
 
-def login(__VIEWSTATE,__EVENTVALIDATION,headers,username,password,CheckCode):
+def login(__VIEWSTATE,__EVENTVALIDATION,headers):
+    checkcode = raw_input("checkcode:")
     form = {
         '__VIEWSTATE':__VIEWSTATE,
-        'txtUserName':username,
+        'txtUserName':2012136105,
         'btnLogin.x': 0,
         'btnLogin.y': 0,
-        'txtPassword':password,
-        'CheckCode':CheckCode,
+        'txtPassword':'2012136105',
+        'CheckCode':checkcode,
         '__EVENTVALIDATION':__EVENTVALIDATION
     }
     data = urllib.urlencode(form)
@@ -87,17 +88,16 @@ def getGrade(headers,loginResult):
                 soup = BeautifulSoup(result.text)
                 tr_title = soup.find(attrs={'class':'HeaderStyle'})
                 tr_chengji = tr_title.find_next_siblings()
-                # for child in tr_chengji[0].children:
-                #     return child
-                return tr_chengji
+                for child in tr_chengji[0].children:
+                    print child
             else:
-                return 'error'
+                print 'error'
         except:
-            return u"查询出错"
+            print u"查询出错"
         finally:
             logOut(headers)
     else:
-        return loginResult
+        print loginResult
 
 
 def logOut(headers):
@@ -105,8 +105,8 @@ def logOut(headers):
     page = ctgu_request.get(logOut_url,headers=headers).text
 
 
-# (cookie,__VIEWSTATE,__EVENTVALIDATION) = init()
-# headers = createHeaders(cookie)
-# getImage(headers)
-# loginResult = login(__VIEWSTATE,__EVENTVALIDATION,headers)
-# getGrade(headers,loginResult)
+(cookie,__VIEWSTATE,__EVENTVALIDATION) = init()
+headers = createHeaders(cookie)
+getImage(headers)
+loginResult = login(__VIEWSTATE,__EVENTVALIDATION,headers)
+getGrade(headers,loginResult)

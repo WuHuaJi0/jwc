@@ -1,17 +1,16 @@
 #encoding:utf-8
-from flask import Flask,render_template,request,url_for,redirect,session
+from flask import Flask,render_template,request,url_for,redirect,session,make_response
 from flask.ext.bootstrap import Bootstrap
 import requests
 import auth
+from bs4 import BeautifulSoup
 import pdb
 import urllib
-
+import random
 # 导入表单
 from flask.ext.wtf import Form
 from wtforms import StringField, SubmitField,PasswordField
-# from wtforms.fields.simple import StringField,SubmitField,PasswordField
 from wtforms.validators import Required
-# from wtforms.ext.i18n.form import Form
 from StringIO import StringIO
 
 
@@ -37,28 +36,25 @@ def index():
 def mask():
     form = UserForm()
     if request.method == 'GET':
-        if not session['flag']:
-            (cookie,__VIEWSTATE,__EVENTVALIDATION) = auth.init()
-            headers = auth.createHeaders(cookie)
-            auth.getImage(headers)
-            session['flag'] = True
-            return __VIEWSTATE
+        (session['cookie'],session['__VIEWSTATE'],session['__EVENTVALIDATION']) = auth.init()
+        session['headers'] = auth.createHeaders(session['cookie'])
+        auth.getImage(session['headers'])
 
-    # if form.validate_on_submit():
-    #     username = form.txtUserName.data
-    #     password = form.txtUserPassword.data
-    #     CheckCode = form.CheckCode.data
-    #     return __VIEWSTATE
-        # auth.login(__VIEWSTATE,__EVENTVALIDATION,headers,username,password,CheckCode)
-        # auth.getGrade(headers)
-        # return redirect(url_for('mask'))
+    if form.validate_on_submit():
+        username = form.txtUserName.data
+        password = form.txtUserPassword.data
+        CheckCode = form.CheckCode.data
+        loginResult = auth.login(session['__VIEWSTATE'],session['__EVENTVALIDATION'],session['headers'],username,password,CheckCode)
+        text = auth.getGrade(session['headers'],loginResult)
 
-    return render_template('mask.html',form=form,__VIEWSTATE=__VIEWSTATE)
+        return render_template('mask_detail.html',text = text)
 
+    return render_template('mask.html',form=form,random=str(random.random()))
 
 @app.route('/test')
 def test():
     return request.method
+
 
 @app.route('/course')
 def course():
@@ -67,6 +63,8 @@ def course():
 @app.route('/about')
 def about():
     return render_template('about.html')
+
+
 
 
 
