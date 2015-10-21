@@ -1,2 +1,3 @@
-import random
-print str(random.random())
+import datetime
+import time
+print time.mktime(datetime.datetime.now().timetuple())

@@ -21,11 +21,10 @@ bootstrap = Bootstrap(app)
 app.config['SECRET_KEY'] = 'HELLO'
 
 
-
 class UserForm(Form):
     txtUserName = StringField(u'输入学号', validators=[Required()])
     txtUserPassword = PasswordField(u'输入密码', validators=[Required()])
-    CheckCode = StringField(u'输入验证码',validators=[Required()])
+    CheckCode = StringField(u'输入那个蠢蠢的验证码',validators=[Required()])
     submit = SubmitField('Submit')
 
 @app.route('/')
@@ -38,22 +37,30 @@ def mask():
     if request.method == 'GET':
         (session['cookie'],session['__VIEWSTATE'],session['__EVENTVALIDATION']) = auth.init()
         session['headers'] = auth.createHeaders(session['cookie'])
+
         auth.getImage(session['headers'])
 
-    if form.validate_on_submit():
+    if form.validate_on_submit() and request.method == 'POST':
         username = form.txtUserName.data
         password = form.txtUserPassword.data
         CheckCode = form.CheckCode.data
-        loginResult = auth.login(session['__VIEWSTATE'],session['__EVENTVALIDATION'],session['headers'],username,password,CheckCode)
-        text = auth.getGrade(session['headers'],loginResult)
+        loginResult = auth.login(session.get('__VIEWSTATE'),session.get('__EVENTVALIDATION'),session.get('headers'),username,password,CheckCode)
 
+        if loginResult != 'yes':
+            return render_template('login_error.html',loginError = loginResult)
+
+        text = auth.getGrade(session['headers'],loginResult)
         return render_template('mask_detail.html',text = text)
 
     return render_template('mask.html',form=form,random=str(random.random()))
 
+
 @app.route('/test')
 def test():
-    return request.method
+    session['test'] = 0
+    session['test'] = session['test'] +1
+
+    return str(session.get('test'))
 
 
 @app.route('/course')
@@ -63,9 +70,6 @@ def course():
 @app.route('/about')
 def about():
     return render_template('about.html')
-
-
-
 
 
 if __name__ == '__main__':

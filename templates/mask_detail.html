@@ -9,9 +9,27 @@
 </div>
 
     <div class="content">
-        {% if text %}
-            {{ text }}
-        {% endif %}
+        <table>
+            <tr>
+                <th></th>
+                <th>学年</th>
+                <th>学期</th>
+                <th>课程名称</th>
+                <th>课程学分</th>
+                <th>考试类型</th>
+                <th>考试成绩</th>
+                <th>所获学分</th>
+                <th></th>
+            </tr>
+            {% if text %}
+                {% for tiaomu in text %}
+                    <tr>
+                    {% for chengji in tiaomu %}
+                        <td>{{ chengji.string }}</td>
+                    {% endfor %}
+                    </tr>
+                {% endfor %}
+            {% endif %}
+        </table>
     </div>
-
 {% endblock %}

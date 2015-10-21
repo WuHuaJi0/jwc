@@ -20,9 +20,10 @@ def init():
             'Upgrade-Insecure-Requests':1,
             'User-Agent':'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.101 Safari/537.36',
     }
-    url = "http://210.42.38.26:84/jwc_glxt/"
 
+    url = "http://210.42.38.26:84/jwc_glxt/"
     r = ctgu_request.get(url)
+
     page = r.text
 
     cookie = r.cookies['ASP.NET_SessionId']
