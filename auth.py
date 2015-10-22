@@ -4,6 +4,10 @@ from StringIO import StringIO
 import urllib
 from bs4 import BeautifulSoup
 from PIL import Image
+# import sys
+#
+# reload(sys)
+# sys.setdefaultencoding('utf8')
 
 ctgu_request = requests.session()
 
@@ -98,6 +102,27 @@ def getGrade(headers,loginResult):
             logOut(headers)
     else:
         return loginResult
+
+def warnning(headers,loginResult):
+    if loginResult == 'yes':
+        try:
+            warningUrl = 'http://210.42.38.26:84/jwc_glxt/Plan_To_Study/Study_Warnning.aspx'
+            result  = ctgu_request.get(warningUrl,headers=headers)
+            if result:
+                soup = BeautifulSoup(result.text)
+
+                span = soup.find(attrs={'id':'ctl00_MainContentPlaceHolder_Label1'})
+
+                return span
+            else:
+                return 'error'
+        except:
+            return u"查询出错"
+        finally:
+            logOut(headers)
+    else:
+        return loginResult
+
 
 
 def logOut(headers):

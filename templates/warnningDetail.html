@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}学业预警{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    {% if h3 %}
+        <h3>{{ h3 }}</h3>
+    {% endif %}
+</div>
+
+<div class="content">
+    {% if fontStringValue %}
+    <h3>{{ fontStringValue }}</h3>
+    {% endif %}
+
+    {% if xuefen %}
+    <h3>{{ xuefen }}</h3>
+    {% endif %}
+</div>
+
+    
+{% endblock %}

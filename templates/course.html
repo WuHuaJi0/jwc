@@ -1,12 +1,18 @@
 {% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
 
-{% block title %}查成绩{% endblock %}
+{% block title %}Flasky{% endblock %}
 
 {% block page_content %}
 <div class="page-header">
-    <h1>查课程页面</h1>
+    <h2>这里是查成绩页面</h2>
+    <p>输入教务网络用户名/密码即可查询</p>
+    <p></p>
 </div>
+
     <div class="content">
-        <h3>还在做，不要着急</h3>
+    {{ wtf.quick_form(form) }}
     </div>
+    <img src="{{ url_for('static', filename='img/code.jpg')+ '?r=' }} + {{ random }}" alt="">
+
 {% endblock %}

@@ -13,6 +13,7 @@ from wtforms import StringField, SubmitField,PasswordField
 from wtforms.validators import Required
 from StringIO import StringIO
 
+
 app = Flask(__name__)
 
 bootstrap = Bootstrap(app)
@@ -45,7 +46,6 @@ def mask():
         username = form.txtUserName.data
         password = form.txtUserPassword.data
         CheckCode = form.CheckCode.data
-        # return session['cookie']
         loginResult = auth.login(session.get('__VIEWSTATE'),session.get('__EVENTVALIDATION'),session.get('headers'),username,password,CheckCode)
 
 
@@ -57,6 +57,50 @@ def mask():
         return render_template('mask_detail.html',text = text)
 
     return render_template('mask.html',form=form,random=str(random.random()))
+
+
+@app.route('/course',methods=['GET','POST'])
+def course():
+    form = UserForm()
+    if request.method == 'GET':
+        session['cookie'] = None
+        session['__VIEWSTATE'] = None
+        session['__EVENTVALIDATION'] = None
+        session['headers'] = None
+        (session['cookie'],session['__VIEWSTATE'],session['__EVENTVALIDATION']) = auth.init()
+        session['headers'] = auth.createHeaders(session['cookie'])
+        auth.getImage(session['headers'])
+
+    if form.validate_on_submit() and request.method == 'POST':
+        username = form.txtUserName.data
+        password = form.txtUserPassword.data
+        CheckCode = form.CheckCode.data
+        loginResult = auth.login(session.get('__VIEWSTATE'),session.get('__EVENTVALIDATION'),session.get('headers'),username,password,CheckCode)
+
+        if loginResult != 'yes':
+            return render_template('login_error.html', loginError = loginResult)
+
+        span = auth.warnning(session['headers'],loginResult)
+        h3 = span.h3.string
+
+        font = span.find('font')
+        fontString = unicode(font)
+        fontStringValue = fontString[18:63]
+
+        stringspan = unicode(span)
+
+        xuefen = stringspan[-23:-7]
+
+        return render_template('warnningDetail.html',h3=h3,fontStringValue=fontStringValue, xuefen=xuefen)
+
+    return render_template('course.html',form=form,random=str(random.random()))
+
+
+
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
 
 
 @app.errorhandler(404)
@@ -71,14 +115,6 @@ def internal_server_error(e):
 @app.route('/test')
 def test():
     pass
-
-@app.route('/course')
-def course():
-    return render_template('course.html')
-
-@app.route('/about')
-def about():
-    return render_template('about.html')
 
 
 if __name__ == '__main__':
