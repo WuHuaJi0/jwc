@@ -1,9 +1,10 @@
 {% extends "base.html" %}
 
-{% block title %}Flasky{% endblock %}
+{% block title %}404{% endblock %}
 
 {% block page_content %}
 <div class="page-header">
-    <h1>你访问的页面找不到了</h1>
+    <h1>你访问了一个错误的页面</h1>
+    <h3><a href="{{ url_for('index') }}">回首页逛逛</a></h3>
 </div>
 {% endblock %}

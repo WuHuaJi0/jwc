@@ -1,12 +1,37 @@
 {% extends "base.html" %}
 
-{% block title %}Flasky{% endblock %}
+{% block title %}关于{% endblock %}
 
 {% block page_content %}
 <div class="page-header">
+    <h2>关于此站</h2>
+</div>
+<div class="content">
+    <h3>因为奇奇怪怪的原因，正如你所体会到的一样，教务系统很不好用</h3>
+    <p>我们希望能用技术的方式，让这个过程变得更加轻松，给你呈现更有美感且更加直观的结果 :D</p>
+</div>
+
+<div class="page-header">
+    <h2>关于安全</h2>
+</div>
+<div class="content">
+    <h3>本站不会存储你的密码，请放心使用 :D</h3>
+    <p>我们会在晚些时候在github上开源代码，即可检验</p>
+</div>
+
+<div class="page-header">
     <h2>关于我们</h2>
 </div>
-    <div class="content">
-        <h4>我们是指吴化吉和他的电脑</h4>
-    </div>
+<div class="content">
+    <h3>我们是指 <a href="http://whj.site">吴化吉</a>和他的电脑</h3>
+</div>
+
+<div class="page-header">
+    <h2>关于技术</h2>
+</div>
+<div class="content">
+<h3>自豪地使用Python &<a href="http://flask.pocoo.org/">Flask</a></h3>
+</div>
+
+
 {% endblock %}
