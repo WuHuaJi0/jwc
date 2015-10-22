@@ -13,13 +13,11 @@ from wtforms import StringField, SubmitField,PasswordField
 from wtforms.validators import Required
 from StringIO import StringIO
 
-
 app = Flask(__name__)
 
 bootstrap = Bootstrap(app)
 
 app.config['SECRET_KEY'] = 'HELLO'
-
 
 class UserForm(Form):
     txtUserName = StringField(u'输入学号', validators=[Required()])
@@ -35,19 +33,25 @@ def index():
 def mask():
     form = UserForm()
     if request.method == 'GET':
+        session['cookie'] = None
+        session['__VIEWSTATE'] = None
+        session['__EVENTVALIDATION'] = None
+        session['headers'] = None
         (session['cookie'],session['__VIEWSTATE'],session['__EVENTVALIDATION']) = auth.init()
         session['headers'] = auth.createHeaders(session['cookie'])
-
         auth.getImage(session['headers'])
 
     if form.validate_on_submit() and request.method == 'POST':
         username = form.txtUserName.data
         password = form.txtUserPassword.data
         CheckCode = form.CheckCode.data
+        # return session['cookie']
         loginResult = auth.login(session.get('__VIEWSTATE'),session.get('__EVENTVALIDATION'),session.get('headers'),username,password,CheckCode)
 
+
         if loginResult != 'yes':
-            return render_template('login_error.html',loginError = loginResult)
+            return render_template('login_error.html', loginError = loginResult)
+
 
         text = auth.getGrade(session['headers'],loginResult)
         return render_template('mask_detail.html',text = text)
@@ -57,11 +61,7 @@ def mask():
 
 @app.route('/test')
 def test():
-    session['test'] = 0
-    session['test'] = session['test'] +1
-
-    return str(session.get('test'))
-
+    pass
 
 @app.route('/course')
 def course():

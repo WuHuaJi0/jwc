@@ -7,9 +7,6 @@
 <div class="page-header">
     <h2>登录出错了</h2>
 </div>
-    {% if loginError %}
         <h3>{{ loginError }}</h3>
-    {% endif %}
-        <h3>点击<a href="{{ url_for('mask') }}">这里</a>重回重新登录
-        </h3>
+        <h3>点击<a href="{{ url_for('mask') }}">这里</a>重回重新登录</h3>
 {% endblock %}

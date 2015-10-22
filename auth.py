@@ -22,14 +22,13 @@ def init():
     }
 
     url = "http://210.42.38.26:84/jwc_glxt/"
-    r = ctgu_request.get(url)
-
+    r = requests.get(url)
     page = r.text
 
-    cookie = r.cookies['ASP.NET_SessionId']
+    cookie = str(r.cookies['ASP.NET_SessionId'])
     soup = BeautifulSoup(page)
-    __VIEWSTATE = soup.find(attrs={'name':'__VIEWSTATE'})['value']
-    __EVENTVALIDATION = soup.find(attrs={'name':'__EVENTVALIDATION'})['value']
+    __VIEWSTATE = str(soup.find(attrs={'name':'__VIEWSTATE'})['value'])
+    __EVENTVALIDATION = str(soup.find(attrs={'name':'__EVENTVALIDATION'})['value'])
 
     return (cookie,__VIEWSTATE,__EVENTVALIDATION)
 

