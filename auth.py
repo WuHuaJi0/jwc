@@ -4,10 +4,7 @@ from StringIO import StringIO
 import urllib
 from bs4 import BeautifulSoup
 from PIL import Image
-# import sys
-#
-# reload(sys)
-# sys.setdefaultencoding('utf8')
+import random
 
 ctgu_request = requests.session()
 
@@ -57,9 +54,11 @@ def createHeaders(cookie):
 
 
 def getImage(headers):
+    randomNum = random.randint(1,1000)
     url = "http://210.42.38.26:84/jwc_glxt/ValidateCode.aspx"
     r = ctgu_request.get(url,headers = headers)
-    i = Image.open(StringIO(r.content)).save('static/img/code.jpg')
+    i = Image.open(StringIO(r.content)).save('static/img/code'+str(randomNum)+'.jpg')
+    return randomNum
 
 
 def login(__VIEWSTATE,__EVENTVALIDATION,headers,username,password,CheckCode):
@@ -129,9 +128,3 @@ def logOut(headers):
     logOut_url = 'http://210.42.38.26:84/jwc_glxt/Login.aspx?xttc=1'
     page = ctgu_request.get(logOut_url,headers=headers).text
 
-
-# (cookie,__VIEWSTATE,__EVENTVALIDATION) = init()
-# headers = createHeaders(cookie)
-# getImage(headers)
-# loginResult = login(__VIEWSTATE,__EVENTVALIDATION,headers)
-# getGrade(headers,loginResult)

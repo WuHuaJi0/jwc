@@ -13,6 +13,5 @@
     <div class="content">
     {{ wtf.quick_form(form) }}
     </div>
-    <img src="{{ url_for('static', filename='img/code.jpg')+ '?r=' }} + {{ random }}" alt="">
-
+    <img src="{{ url_for('static', filename='img/code'+ randomNum +'.jpg') }}" alt="">
 {% endblock %}

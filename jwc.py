@@ -38,9 +38,11 @@ def mask():
         session['__VIEWSTATE'] = None
         session['__EVENTVALIDATION'] = None
         session['headers'] = None
+        session['randomNum'] = None
+
         (session['cookie'],session['__VIEWSTATE'],session['__EVENTVALIDATION']) = auth.init()
         session['headers'] = auth.createHeaders(session['cookie'])
-        auth.getImage(session['headers'])
+        session['randomNum'] = auth.getImage(session['headers'])
 
     if form.validate_on_submit() and request.method == 'POST':
         username = form.txtUserName.data
@@ -50,13 +52,13 @@ def mask():
 
 
         if loginResult != 'yes':
-            return render_template('login_error.html', loginError = loginResult)
+            return render_template('login_error.html', loginError = loginResult,before='mask')
 
 
         text = auth.getGrade(session['headers'],loginResult)
         return render_template('mask_detail.html',text = text)
 
-    return render_template('mask.html',form=form,random=str(random.random()))
+    return render_template('mask.html',form=form,randomNum=str(session['randomNum']))
 
 
 @app.route('/course',methods=['GET','POST'])
@@ -67,9 +69,11 @@ def course():
         session['__VIEWSTATE'] = None
         session['__EVENTVALIDATION'] = None
         session['headers'] = None
+        session['randomNum'] = None
+
         (session['cookie'],session['__VIEWSTATE'],session['__EVENTVALIDATION']) = auth.init()
         session['headers'] = auth.createHeaders(session['cookie'])
-        auth.getImage(session['headers'])
+        session['randomNum'] = auth.getImage(session['headers'])
 
     if form.validate_on_submit() and request.method == 'POST':
         username = form.txtUserName.data
@@ -78,7 +82,7 @@ def course():
         loginResult = auth.login(session.get('__VIEWSTATE'),session.get('__EVENTVALIDATION'),session.get('headers'),username,password,CheckCode)
 
         if loginResult != 'yes':
-            return render_template('login_error.html', loginError = loginResult)
+            return render_template('login_error.html', loginError = loginResult,before='course')
 
         span = auth.warnning(session['headers'],loginResult)
         h3 = span.h3.string
@@ -93,7 +97,7 @@ def course():
 
         return render_template('warnningDetail.html',h3=h3,fontStringValue=fontStringValue, xuefen=xuefen)
 
-    return render_template('course.html',form=form,random=str(random.random()))
+    return render_template('course.html',form=form,randomNum=str(session['randomNum']))
 
 
 
