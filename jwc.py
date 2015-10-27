@@ -14,23 +14,23 @@ from wtforms.validators import Required
 from StringIO import StringIO
 
 
-app = Flask(__name__)
+application = Flask(__name__)
 
-bootstrap = Bootstrap(app)
+bootstrap = Bootstrap(application)
 
-app.config['SECRET_KEY'] = 'HELLO'
+application.config['SECRET_KEY'] = 'HELLO'
 
 class UserForm(Form):
     txtUserName = StringField(u'输入学号', validators=[Required()])
     txtUserPassword = PasswordField(u'输入密码', validators=[Required()])
-    CheckCode = StringField(u'输入那个蠢蠢的验证码',validators=[Required()])
-    submit = SubmitField('Submit')
+    CheckCode = StringField(u'输入该死的验证码',validators=[Required()])
+    submit = SubmitField(u'查询')
 
-@app.route('/')
+@application.route('/')
 def index():
     return render_template('index.html')
 
-@app.route('/mask',methods=['GET','POST'])
+@application.route('/mask',methods=['GET','POST'])
 def mask():
     form = UserForm()
     if request.method == 'GET':
@@ -61,7 +61,7 @@ def mask():
     return render_template('mask.html',form=form,randomNum=str(session['randomNum']))
 
 
-@app.route('/course',methods=['GET','POST'])
+@application.route('/course',methods=['GET','POST'])
 def course():
     form = UserForm()
     if request.method == 'GET':
@@ -101,25 +101,24 @@ def course():
 
 
 
-@app.route('/about')
+@application.route('/about')
 def about():
     return render_template('about.html')
 
 
 
-@app.errorhandler(404)
+@application.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
 
 
-@app.errorhandler(500)
+@application.errorhandler(500)
 def internal_server_error(e):
     return render_template('500.html'), 500
 
-@app.route('/test')
+@application.route('/test')
 def test():
     pass
 
-
 if __name__ == '__main__':
-    app.run(debug=True)
+    application.run()
