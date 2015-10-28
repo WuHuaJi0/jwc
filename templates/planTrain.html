@@ -3,27 +3,28 @@
 
 {% block page_content %}
 <div class="page-header">
-    <h2>成绩详情</h2>
+    <h2>培养计划</h2>
 </div>
 
     <div class="content">
-        <table class="table table-striped table-hover table-bordered">
+        <table class="table table-striped table-hover">
             <tr>
                 <th></th>
                 <th>学年</th>
                 <th>学期</th>
+                <th>课程编号</th>
                 <th>课程名称</th>
-                <th>课程学分</th>
-                <th>考试类型</th>
-                <th>考试成绩</th>
-                <th>学分</th>
-                <th></th>
+                <th>考试学时</th>
+                <th>考试学分</th>
+                <th>性质</th>
+                <th>学位课</th>
             </tr>
-            {% if text %}
-                {% for tiaomu in text %}
+
+            {% if plan %}
+                {% for tiaomu in plan %}
                     <tr>
-                    {% for chengji in tiaomu %}
-                        <td>{{ chengji.string }}</td>
+                    {% for kecheng in tiaomu %}
+                        <td>{{ kecheng.string }}</td>
                     {% endfor %}
                     </tr>
                 {% endfor %}

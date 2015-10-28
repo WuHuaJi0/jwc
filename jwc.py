@@ -30,6 +30,7 @@ class UserForm(Form):
 def index():
     return render_template('index.html')
 
+# 查询成绩
 @application.route('/mask',methods=['GET','POST'])
 def mask():
     form = UserForm()
@@ -58,9 +59,10 @@ def mask():
         text = auth.getGrade(session['headers'],loginResult)
         return render_template('mask_detail.html',text = text)
 
-    return render_template('mask.html',form=form,randomNum=str(session['randomNum']))
+    return render_template('query.html',form=form,randomNum=str(session['randomNum']))
 
 
+# 获取总的学分，这里还可以优化一下
 @application.route('/course',methods=['GET','POST'])
 def course():
     form = UserForm()
@@ -97,15 +99,95 @@ def course():
 
         return render_template('warnningDetail.html',h3=h3,fontStringValue=fontStringValue, xuefen=xuefen)
 
-    return render_template('course.html',form=form,randomNum=str(session['randomNum']))
+    return render_template('query.html',form=form,randomNum=str(session['randomNum']))
+
+@application.route('/planTrain',methods=['GET','POST'])
+def planTrain():
+    form = UserForm()
+    if request.method == 'GET':
+        session['cookie'] = None
+        session['__VIEWSTATE'] = None
+        session['__EVENTVALIDATION'] = None
+        session['headers'] = None
+        session['randomNum'] = None
+
+        (session['cookie'],session['__VIEWSTATE'],session['__EVENTVALIDATION']) = auth.init()
+        session['headers'] = auth.createHeaders(session['cookie'])
+        session['randomNum'] = auth.getImage(session['headers'])
+
+    if form.validate_on_submit() and request.method == 'POST':
+        username = form.txtUserName.data
+        password = form.txtUserPassword.data
+        CheckCode = form.CheckCode.data
+        loginResult = auth.login(session.get('__VIEWSTATE'),session.get('__EVENTVALIDATION'),session.get('headers'),username,password,CheckCode)
+
+        if loginResult != 'yes':
+            return render_template('login_error.html', loginError = loginResult,before='course')
+
+        plan = auth.trainPlan(session['headers'],loginResult)
+
+        return render_template('planTrain.html',plan = plan)
+    return render_template('query.html',form=form,randomNum=str(session['randomNum']))
+
+
+@application.route('/studyCompare',methods=['GET','POST'])
+def studyCompare():
+    form = UserForm()
+    if request.method == 'GET':
+        session['cookie'] = None
+        session['__VIEWSTATE'] = None
+        session['__EVENTVALIDATION'] = None
+        session['headers'] = None
+        session['randomNum'] = None
+
+        (session['cookie'],session['__VIEWSTATE'],session['__EVENTVALIDATION']) = auth.init()
+        session['headers'] = auth.createHeaders(session['cookie'])
+        session['randomNum'] = auth.getImage(session['headers'])
+
+    if form.validate_on_submit() and request.method == 'POST':
+        username = form.txtUserName.data
+        password = form.txtUserPassword.data
+        CheckCode = form.CheckCode.data
+        loginResult = auth.login(session.get('__VIEWSTATE'),session.get('__EVENTVALIDATION'),session.get('headers'),username,password,CheckCode)
+
+        if loginResult != 'yes':
+            return render_template('login_error.html', loginError = loginResult,before='course')
+
+        plan = auth.studyCompare(session['headers'],loginResult)
+
+        return render_template('studyCompare.html',plan = plan)
+
+    return render_template('query.html',form=form,randomNum=str(session['randomNum']))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 @application.route('/about')
 def about():
     return render_template('about.html')
-
-
 
 @application.errorhandler(404)
 def page_not_found(e):
@@ -116,9 +198,7 @@ def page_not_found(e):
 def internal_server_error(e):
     return render_template('500.html'), 500
 
-@application.route('/test')
-def test():
-    pass
+
 
 if __name__ == '__main__':
-    application.run()
+    application.run(debug=True)

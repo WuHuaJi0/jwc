@@ -51,8 +51,7 @@ def createHeaders(cookie):
     }
     return headers
 
-
-
+# 获取验证码
 def getImage(headers):
     randomNum = random.randint(1,1000)
     url = "http://210.42.38.26:84/jwc_glxt/ValidateCode.aspx"
@@ -81,6 +80,7 @@ def login(__VIEWSTATE,__EVENTVALIDATION,headers,username,password,CheckCode):
     else:
         return 'yes'
 
+# 获取成绩
 def getGrade(headers,loginResult):
     if loginResult == 'yes':
         try:
@@ -89,9 +89,7 @@ def getGrade(headers,loginResult):
             if result:
                 soup = BeautifulSoup(result.text)
                 tr_title = soup.find(attrs={'class':'HeaderStyle'})
-                tr_chengji = tr_title.find_next_siblings()
-                # for child in tr_chengji[0].children:
-                #     return child
+                tr_chengji  = tr_title.find_next_siblings()
                 return tr_chengji
             else:
                 return 'error'
@@ -102,6 +100,7 @@ def getGrade(headers,loginResult):
     else:
         return loginResult
 
+# 获取总学分
 def warnning(headers,loginResult):
     if loginResult == 'yes':
         try:
@@ -122,6 +121,46 @@ def warnning(headers,loginResult):
     else:
         return loginResult
 
+
+# 培养计划
+def trainPlan(headers,loginResult):
+    if loginResult == 'yes':
+        try:
+            planUrl = 'http://210.42.38.26:84/jwc_glxt/Plan_Train/PlanTrain_Query.aspx'
+            result  = ctgu_request.get(planUrl,headers=headers)
+            if result:
+                soup = BeautifulSoup(result.text)
+                tr_title = soup.find(attrs={'class':'HeaderStyle'})
+                plan = tr_title.find_next_siblings()
+                return plan
+            else:
+                return 'error'
+        except:
+            return u"查询出错"
+        finally:
+            logOut(headers)
+    else:
+        return loginResult
+
+# 学业对比：
+def studyCompare(headers,loginResult):
+    if loginResult == 'yes':
+        try:
+            planUrl = 'http://210.42.38.26:84/jwc_glxt/Plan_To_Study/PlanToStudy_Query.aspx'
+            result  = ctgu_request.get(planUrl,headers=headers)
+            if result:
+                soup = BeautifulSoup(result.text)
+                tr_title = soup.find(attrs={'class':'HeaderStyle'})
+                plan = tr_title.find_next_siblings()
+                return plan
+            else:
+                return 'error'
+        except:
+            return u"查询出错"
+        finally:
+            logOut(headers)
+    else:
+        return loginResult
 
 
 def logOut(headers):
