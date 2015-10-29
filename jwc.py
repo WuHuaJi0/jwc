@@ -7,11 +7,13 @@ from bs4 import BeautifulSoup
 import pdb
 import urllib
 import random
-# 导入表单
+
 from flask.ext.wtf import Form
 from wtforms import StringField, SubmitField,PasswordField
 from wtforms.validators import Required
-from StringIO import StringIO
+
+# import mysql
+
 
 
 application = Flask(__name__)
@@ -160,28 +162,13 @@ def studyCompare():
     return render_template('query.html',form=form,randomNum=str(session['randomNum']))
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+@application.route('/chat',methods=['GET','POST'])
+def chat():
+    if request.method == 'POST':
+        content = request.form.get('content')
+        people = request.form.get('people')
+        return people
+    return render_template('chat.html')
 
 
 
@@ -197,7 +184,6 @@ def page_not_found(e):
 @application.errorhandler(500)
 def internal_server_error(e):
     return render_template('500.html'), 500
-
 
 
 if __name__ == '__main__':
