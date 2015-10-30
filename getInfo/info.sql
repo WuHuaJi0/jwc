@@ -1,9 +1,10 @@
 CREATE database allinfo;
 
-use database;
+use allinfo;
 
 CREATE table info(
 	id int(12) unsigned NOT NULL AUTO_INCREMENT primary key,
+	username varchar(30),
 	name varchar(30),
 	birth varchar(30),
 	minzu varchar(20),
@@ -27,5 +28,5 @@ CREATE table info(
 	familyNum varchar(30),
 	allYearEarn varchar(30),
 	address varchar(30),
-	hukouAttr varchar(30),
-)
+	hukouAttr varchar(30)
+);
