@@ -53,13 +53,12 @@ def mask():
         CheckCode = form.CheckCode.data
         loginResult = auth.login(session.get('__VIEWSTATE'),session.get('__EVENTVALIDATION'),session.get('headers'),username,password,CheckCode)
 
-
         if loginResult != 'yes':
             return render_template('login_error.html', loginError = loginResult,before='mask')
 
+        (tiaomu2012,tiaomu2013,tiaomu2014,tiaomu2015) = auth.getGrade(session['headers'],loginResult)
 
-        text = auth.getGrade(session['headers'],loginResult)
-        return render_template('mask_detail.html',text = text)
+        return render_template('mask_detail.html',tiaomu2012 = tiaomu2012,tiaomu2013 = tiaomu2013,tiaomu2014 = tiaomu2014,tiaomu2015 = tiaomu2015)
 
     return render_template('query.html',form=form,randomNum=str(session['randomNum']))
 

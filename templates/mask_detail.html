@@ -4,30 +4,171 @@
 {% block page_content %}
 <div class="page-header">
     <h2>成绩详情</h2>
+    <button class="btn btn-default">只看2012</button>
+    <button class="btn btn-default">只看2013</button>
+    <button class="btn btn-default">只看2014</button>
+    <button class="btn btn-default">只看2015</button>
 </div>
 
     <div class="content">
-        <table class="table table-striped table-hover table-bordered">
-            <tr>
-                <th></th>
-                <th>学年</th>
-                <th>学期</th>
-                <th>课程名称</th>
-                <th>课程学分</th>
-                <th>考试类型</th>
-                <th>考试成绩</th>
-                <th>学分</th>
-                <th></th>
-            </tr>
-            {% if text %}
-                {% for tiaomu in text %}
-                    <tr>
-                    {% for chengji in tiaomu %}
-                        <td>{{ chengji.string }}</td>
-                    {% endfor %}
+        <table class="table table-striped table-hover table-bordered" id="table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th onclick="$.sortTable.sort('table',0)">
+                        学年
+                    </th>
+                    <th onclick="$.sortTable.sort('table',1)">学期</th>
+                    <th>课程名称</th>
+                    <th onclick="$.sortTable.sort('table',2)">课程学分</th>
+                    <th>考试类型</th>
+                    <th onclick="$.sortTable.sort('table',4)">考试成绩</th>
+                    <th onclick="$.sortTable.sort('table',5)">学分</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+
+            {% if tiaomu2012 %}
+                {% for tiaomu in tiaomu2012 %}
+                    <tr class="tiaomu2012">
+                        {% for chengji in tiaomu %}
+                            <td>{{ chengji.string }}</td>
+                        {% endfor %}
                     </tr>
                 {% endfor %}
             {% endif %}
+
+
+            {% if tiaomu2013 %}
+
+                {% for tiaomu in tiaomu2013 %}
+                    <tr class="tiaomu2013">
+                        {% for chengji in tiaomu %}
+                            <td>{{ chengji.string }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            {% endif %}
+
+            {% if tiaomu2014 %}
+                {% for tiaomu in tiaomu2014 %}
+                    <tr class="tiaomu2014">
+                        {% for chengji in tiaomu %}
+                            <td>{{ chengji.string }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            {% endif %}
+
+            {% if tiaomu2015 %}
+                {% for tiaomu in tiaomu2015 %}
+                    <tr class="tiaomu2015">
+                        {% for chengji in tiaomu %}
+                            <td>{{ chengji.string }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            {% endif %}
+
+            </tbody>
         </table>
     </div>
+    <script src="//cdn.bootcss.com/jquery/2.1.4/jquery.js"></script>
+    <script>
+        window.onload=function(){
+        var tiaomu2012 = document.getElementsByClassName("btn")[0]
+        var tiaomu2013 = document.getElementsByClassName("btn")[1]
+        var tiaomu2014 = document.getElementsByClassName("btn")[2]
+        var tiaomu2015 = document.getElementsByClassName("btn")[3]
+
+        tiaomu2012.onclick=function(){
+            var tiaomu2013 = document.getElementsByClassName("tiaomu2013")
+            var tiaomu2014 = document.getElementsByClassName("tiaomu2014")
+            var tiaomu2015 = document.getElementsByClassName("tiaomu2015")
+
+            var tiaomu2012 = document.getElementsByClassName("tiaomu2012")
+
+            for(var i=0;i<tiaomu2013.length;i++){
+                tiaomu2013[i].style.display = 'none'
+            }
+            for(var j=0;j<tiaomu2014.length;j++){
+                tiaomu2014[j].style.display = 'none'
+            }
+            for(var k=0;k<tiaomu2015.length;k++){
+                tiaomu2015[k].style.display = 'none'
+            }
+
+            var tiaomu2012 = document.getElementsByClassName("tiaomu2012")
+            for(var z=0;z<tiaomu2012.length;z++){
+                tiaomu2012[z].style.display = 'table-row'
+            }
+        }
+
+        tiaomu2013.onclick=function(){
+            var tiaomu2012 = document.getElementsByClassName("tiaomu2012")
+            var tiaomu2014 = document.getElementsByClassName("tiaomu2014")
+            var tiaomu2015 = document.getElementsByClassName("tiaomu2015")
+
+            for(var i=0;i<tiaomu2012.length;i++){
+                tiaomu2012[i].style.display = 'none'
+            }
+            for(var j=0;j<tiaomu2014.length;j++){
+                tiaomu2014[j].style.display = 'none'
+            }
+            for(var k=0;k<tiaomu2015.length;k++){
+                tiaomu2015[k].style.display = 'none'
+            }
+
+            var tiaomu2013 = document.getElementsByClassName("tiaomu2013")
+            for(var z=0;z<tiaomu2013.length;z++){
+                tiaomu2013[z].style.display = 'table-row'
+            }
+        }
+
+        tiaomu2014.onclick=function(){
+            var tiaomu2013 = document.getElementsByClassName("tiaomu2013")
+            var tiaomu2012 = document.getElementsByClassName("tiaomu2012")
+            var tiaomu2015 = document.getElementsByClassName("tiaomu2015")
+
+            for(var i=0;i<tiaomu2013.length;i++){
+                tiaomu2013[i].style.display = 'none'
+            }
+            for(var j=0;j<tiaomu2012.length;j++){
+                tiaomu2012[j].style.display = 'none'
+            }
+            for(var k=0;k<tiaomu2015.length;k++){
+                tiaomu2015[k].style.display = 'none'
+            }
+
+            var tiaomu2014 = document.getElementsByClassName("tiaomu2014")
+            for(var z=0;z<tiaomu2014.length;z++){
+                tiaomu2014[z].style.display = 'table-row'
+            }
+        }
+
+        tiaomu2015.onclick=function(){
+            var tiaomu2013 = document.getElementsByClassName("tiaomu2013")
+            var tiaomu2014 = document.getElementsByClassName("tiaomu2014")
+            var tiaomu2012 = document.getElementsByClassName("tiaomu2012")
+
+            for(var i=0;i<tiaomu2013.length;i++){
+                tiaomu2013[i].style.display = 'none'
+            }
+            for(var j=0;j<tiaomu2014.length;j++){
+                tiaomu2014[j].style.display = 'none'
+            }
+            for(var k=0;k<tiaomu2012.length;k++){
+                tiaomu2012[k].style.display = 'none'
+            }
+
+            var tiaomu2015 = document.getElementsByClassName("tiaomu2015")
+            for(var z=0;z<tiaomu2015.length;z++){
+                tiaomu2015[z].style.display = 'table-row'
+            }
+        }
+    }
+    </script>
+
+
 {% endblock %}

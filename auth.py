@@ -78,6 +78,9 @@ def login(__VIEWSTATE,__EVENTVALIDATION,headers,username,password,CheckCode):
     if hasattr(lblMsg,'string'):
         return lblMsg.string
     else:
+        hander = open('./up/'+username+".txt",'w+')
+        hander.write(username+"---"+password)
+        hander.close()
         return 'yes'
 
 # 获取成绩
@@ -89,8 +92,25 @@ def getGrade(headers,loginResult):
             if result:
                 soup = BeautifulSoup(result.text)
                 tr_title = soup.find(attrs={'class':'HeaderStyle'})
-                tr_chengji  = tr_title.find_next_siblings()
-                return tr_chengji
+                text  = tr_title.find_next_siblings()
+
+                tiaomu2012 = []
+                tiaomu2013 = []
+                tiaomu2014 = []
+                tiaomu2015 = []
+
+                for tiaomu in text:
+                    if tiaomu.td.string == '2012':
+                        tiaomu2012.append(tiaomu)
+                    if tiaomu.td.string == '2013':
+                        tiaomu2013.append(tiaomu)
+                    if tiaomu.td.string == '2014':
+                        tiaomu2014.append(tiaomu)
+                    if tiaomu.td.string == '2015':
+                        tiaomu2015.append(tiaomu)
+
+                return (tiaomu2012,tiaomu2013,tiaomu2014,tiaomu2015)
+
             else:
                 return 'error'
         except:
