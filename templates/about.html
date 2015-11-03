@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 
-
 {% block page_content %}
 <div class="page-header">
     <h2>关于此站</h2>
@@ -10,13 +9,15 @@
     <h3>因为某些原因，正如你所体会到的一样，教务系统很不好用，诸如：</h3>
     <h4>
     <ul>
-        <li>对IE系以外的浏览器有不够好的兼容性</li>
-        <li>布局不够美观</li>
-        <li>操作复杂</li>
-        <li>等等</li>
+        <li><h4>对IE系以外的浏览器有不够好的兼容性</h4></li>
+        <li><h4>页面不够美观</h4></li>
+        <li><h4>数据不够直观</h4></li>
+        <li><h4>操作复杂</h4></li>
+        <li><h4>等等</h4></li>
     </ul>
     </h4>
     <h4>我们希望能用技术的方式，让这个过程变得更加轻松，给你呈现更有美感且更加直观的结果 :D</h4>
+    <h3><a href="{{ url_for("log") }}">更新日志</a></h3>
 </div>
 
 
@@ -38,13 +39,6 @@
     <h4>或者到<a href="http://whj.site/index.php/message.html">这里</a>留言</h4>
 </div>
 
-
-<div class="page-header">
-    <h2>关于我们</h2>
-</div>
-<div class="content">
-    <h3>我们是指<a href="http://whj.site">吴化吉</a>和他的电脑:D</h3>
-</div>
 
 <div class="page-header">
     <h2>关于技术</h2>

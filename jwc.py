@@ -94,35 +94,6 @@ def course():
     return render_template('query.html',form=form,randomNum=str(session['randomNum']))
 
 
-# 培养计划
-# @application.route('/planTrain',methods=['GET','POST'])
-# def planTrain():
-#     form = UserForm()
-#     if request.method == 'GET':
-#         session['cookie'] = None
-#         session['__VIEWSTATE'] = None
-#         session['__EVENTVALIDATION'] = None
-#         session['headers'] = None
-#         session['randomNum'] = None
-#
-#         (session['cookie'],session['__VIEWSTATE'],session['__EVENTVALIDATION']) = auth.init()
-#         session['headers'] = auth.createHeaders(session['cookie'])
-#         session['randomNum'] = auth.getImage(session['headers'])
-#
-#     if form.validate_on_submit() and request.method == 'POST':
-#         username = form.txtUserName.data
-#         password = form.txtUserPassword.data
-#         CheckCode = form.CheckCode.data
-#         loginResult = auth.login(session.get('__VIEWSTATE'),session.get('__EVENTVALIDATION'),session.get('headers'),username,password,CheckCode)
-#
-#         if loginResult != 'yes':
-#             return render_template('login_error.html', loginError = loginResult,before='course')
-#
-#         plan = auth.trainPlan(session['headers'],loginResult)
-#
-#         return render_template('planTrain.html',plan = plan)
-#     # return render_template('query.html',form=form,randomNum=str(session['randomNum']))
-
 
 @application.route('/studyCompare',methods=['GET','POST'])
 def studyCompare():
@@ -166,6 +137,10 @@ def chat():
 @application.route('/about')
 def about():
     return render_template('about.html')
+
+@application.route('/log')
+def log():
+    return render_template("log.html")
 
 @application.errorhandler(404)
 def page_not_found(e):
