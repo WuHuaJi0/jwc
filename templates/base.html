@@ -1,13 +1,12 @@
 {% extends "bootstrap/base.html" %}
-
-{% block title %}ctgu.ren{% endblock %}
+{% block html_attribs %} xmlns:wb="http://open.weibo.com/wb"{% endblock html_attribs %}>
+{% block title %}三大人{% endblock %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-
 {% block styles %}
     <!-- Bootstrap -->
     <link href="{{bootstrap_find_resource('css/bootstrap.css', cdn='bootstrap')}}" rel="stylesheet">
     <link rel="stylesheet" href="../static/css/style.css">
-
+    <script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js" type="text/javascript" charset="utf-8"></script>
 {% endblock styles %}
 {% block navbar %}
 <div class="navbar navbar-inverse" role="navigation">
@@ -40,13 +39,15 @@
 <div class="container">
     {% block page_content %}{% endblock %}
     <div class="share">
+        <h3 class="btn btn-success">非常好用？赶快分享吧:</h3>
+        <br>
         <script type="text/javascript">
             (function(){
             var p = {
             url:location.href,
             showcount:'1',
-            desc:'这是一个描述',
-            summary:'来这里查询成绩、学分、一目了然',
+            desc:'我的成绩超越了百分之88的三大人，来这里查一下',
+            summary:'我的成绩超越了百分之88的三大人，来这里查一下',
             title:'三大人',
             site:'http://ctgu.ren',
             pics:'',
@@ -60,8 +61,11 @@
             }
             document.write(['<a version="1.0" class="qzOpenerDiv" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?',s.join('&'),'" target="_blank">分享</a>'].join(''));
             })();
+
         </script>
-<script src="http://qzonestyle.gtimg.cn/qzone/app/qzlike/qzopensl.js#jsdate=20111201" charset="utf-8"></script>
+
+    <script src="http://qzonestyle.gtimg.cn/qzone/app/qzlike/qzopensl.js#jsdate=20111201" charset="utf-8"></script>
+        <wb:share-button appkey="652498579" addition="number" type="icon" default_text="我的成绩超越了百分之88的三大人，来这里查一下"></wb:share-button>
     </div>
 </div>
 

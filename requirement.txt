@@ -1,2 +1,19 @@
+
+sudo apt-get install pip
+
+pip install flask
+pip install requests
+
 bootstrap
-pip install flask-wtf
+
+pip install beautifulsoup4
+
+sudo pip install flask-wtf
+
+sudo apt-get install python-mysqldb
+
+
+pil的问题，看这一篇文档：
+http://stackoverflow.com/questions/8915296/python-image-library-fails-with-message-decoder-jpeg-not-available-pil
+
+第二个答案
