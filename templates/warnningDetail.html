@@ -4,18 +4,21 @@
 
 {% block page_content %}
 <div class="page-header">
-    {% if h3 %}
-        <h3>{{ h3 }}</h3>
-    {% endif %}
+{#    {% if h3 %}#}
+{#        <h3>{{ h3 }}</h3>#}
+{#    {% endif %}#}
 </div>
 
 <div class="content">
-    {% if fontStringValue %}
-    <h3>{{ fontStringValue }}</h3>
-    {% endif %}
-
-    {% if xuefen %}
-    <h3>{{ xuefen }}</h3>
+{#    {% if fontStringValue %}#}
+{#    <h3>{{ fontStringValue }}</h3>#}
+{#    {% endif %}#}
+{##}
+{#    {% if xuefen %}#}
+{#    <h3>{{ xuefen }}</h3>#}
+{#    {% endif %}#}
+    {% if warnning %}
+        <h3>{{ warnning }}</h3>
     {% endif %}
 </div>
 

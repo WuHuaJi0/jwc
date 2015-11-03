@@ -3,11 +3,15 @@
 
 {% block page_content %}
 <div class="page-header">
+    {% if userinfo %}
+        <h2>你好,<span class="text-muted">{{ userinfo }}</span></h2>
+    {% endif %}
     <h2>成绩详情</h2>
     <button class="btn btn-default">只看2012</button>
     <button class="btn btn-default">只看2013</button>
     <button class="btn btn-default">只看2014</button>
     <button class="btn btn-default">只看2015</button>
+    <button class="btn btn-default">查看全部</button>
 </div>
 
     <div class="content">
@@ -15,15 +19,13 @@
             <thead>
                 <tr>
                     <th></th>
-                    <th onclick="$.sortTable.sort('table',0)">
-                        学年
-                    </th>
-                    <th onclick="$.sortTable.sort('table',1)">学期</th>
-                    <th>课程名称</th>
-                    <th onclick="$.sortTable.sort('table',2)">课程学分</th>
-                    <th>考试类型</th>
-                    <th onclick="$.sortTable.sort('table',4)">考试成绩</th>
-                    <th onclick="$.sortTable.sort('table',5)">学分</th>
+                    <th>学年</th>
+                    <th>学期</th>
+                    <th>名称</th>
+                    <th>学分</th>
+                    <th>类型</th>
+                    <th>成绩</th>
+                    <th>挣到学分</th>
                     <th></th>
                 </tr>
             </thead>
@@ -81,6 +83,7 @@
         var tiaomu2013 = document.getElementsByClassName("btn")[1]
         var tiaomu2014 = document.getElementsByClassName("btn")[2]
         var tiaomu2015 = document.getElementsByClassName("btn")[3]
+        var lookAll = document.getElementsByClassName("btn")[4]
 
         tiaomu2012.onclick=function(){
             var tiaomu2013 = document.getElementsByClassName("tiaomu2013")
@@ -167,6 +170,37 @@
                 tiaomu2015[z].style.display = 'table-row'
             }
         }
+
+        lookAll.onclick = function(){
+            var tr = document.getElementsByTagName("tr")
+            for(var i = 0;i<tr.length;i++){
+                tr[i].style.display='table-row'
+            }
+        }
+
+            var tbody = document.getElementsByTagName("tbody")[0]
+            tr = tbody.getElementsByTagName("tr")
+            for(var tri=0;tri<tr.length;tri++){
+                tSession = tr[tri].getElementsByTagName("td")[2]
+                if(tSession.innerText == '3') {
+                    tSession.innerText = "秋季"
+                }
+                if(tSession.innerText == '1') {
+                    tSession.innerText = "春季"
+                }
+
+                tType = tr[tri].getElementsByTagName("td")[5]
+                if(tType.innerText == "补考"){
+                    tType.setAttribute("class","bukao")
+                }
+                tMask = tr[tri].getElementsByTagName("td")[6]
+                if(tMask.innerText < 60){
+                    tXuefen = tr[tri].getElementsByTagName("td")[7]
+                    tMask.setAttribute("class","bujige")
+                    tXuefen.setAttribute("class","bujige")
+                }
+
+            }
     }
     </script>
 

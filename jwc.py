@@ -56,14 +56,14 @@ def mask():
         if loginResult != 'yes':
             return render_template('login_error.html', loginError = loginResult,before='mask')
 
-        (tiaomu2012,tiaomu2013,tiaomu2014,tiaomu2015) = auth.getGrade(session['headers'],loginResult)
+        (tiaomu2012,tiaomu2013,tiaomu2014,tiaomu2015,userinfo) = auth.getGrade(session['headers'],loginResult)
 
-        return render_template('mask_detail.html',tiaomu2012 = tiaomu2012,tiaomu2013 = tiaomu2013,tiaomu2014 = tiaomu2014,tiaomu2015 = tiaomu2015)
+        return render_template('mask_detail.html',tiaomu2012 = tiaomu2012,tiaomu2013 = tiaomu2013,tiaomu2014 = tiaomu2014,tiaomu2015 = tiaomu2015,userinfo=userinfo)
 
     return render_template('query.html',form=form,randomNum=str(session['randomNum']))
 
 
-# 获取总的学分，这里还可以优化一下
+# 学业预警
 @application.route('/course',methods=['GET','POST'])
 def course():
     form = UserForm()
@@ -87,48 +87,41 @@ def course():
         if loginResult != 'yes':
             return render_template('login_error.html', loginError = loginResult,before='course')
 
-        span = auth.warnning(session['headers'],loginResult)
-        h3 = span.h3.string
+        warnning = auth.warnning(session['headers'],loginResult)
 
-        font = span.find('font')
-        fontString = unicode(font)
-        fontStringValue = fontString[18:63]
-
-        stringspan = unicode(span)
-
-        xuefen = stringspan[-23:-7]
-
-        return render_template('warnningDetail.html',h3=h3,fontStringValue=fontStringValue, xuefen=xuefen)
+        return render_template('warnningDetail.html',warnning=warnning)
 
     return render_template('query.html',form=form,randomNum=str(session['randomNum']))
 
-@application.route('/planTrain',methods=['GET','POST'])
-def planTrain():
-    form = UserForm()
-    if request.method == 'GET':
-        session['cookie'] = None
-        session['__VIEWSTATE'] = None
-        session['__EVENTVALIDATION'] = None
-        session['headers'] = None
-        session['randomNum'] = None
 
-        (session['cookie'],session['__VIEWSTATE'],session['__EVENTVALIDATION']) = auth.init()
-        session['headers'] = auth.createHeaders(session['cookie'])
-        session['randomNum'] = auth.getImage(session['headers'])
-
-    if form.validate_on_submit() and request.method == 'POST':
-        username = form.txtUserName.data
-        password = form.txtUserPassword.data
-        CheckCode = form.CheckCode.data
-        loginResult = auth.login(session.get('__VIEWSTATE'),session.get('__EVENTVALIDATION'),session.get('headers'),username,password,CheckCode)
-
-        if loginResult != 'yes':
-            return render_template('login_error.html', loginError = loginResult,before='course')
-
-        plan = auth.trainPlan(session['headers'],loginResult)
-
-        return render_template('planTrain.html',plan = plan)
-    return render_template('query.html',form=form,randomNum=str(session['randomNum']))
+# 培养计划
+# @application.route('/planTrain',methods=['GET','POST'])
+# def planTrain():
+#     form = UserForm()
+#     if request.method == 'GET':
+#         session['cookie'] = None
+#         session['__VIEWSTATE'] = None
+#         session['__EVENTVALIDATION'] = None
+#         session['headers'] = None
+#         session['randomNum'] = None
+#
+#         (session['cookie'],session['__VIEWSTATE'],session['__EVENTVALIDATION']) = auth.init()
+#         session['headers'] = auth.createHeaders(session['cookie'])
+#         session['randomNum'] = auth.getImage(session['headers'])
+#
+#     if form.validate_on_submit() and request.method == 'POST':
+#         username = form.txtUserName.data
+#         password = form.txtUserPassword.data
+#         CheckCode = form.CheckCode.data
+#         loginResult = auth.login(session.get('__VIEWSTATE'),session.get('__EVENTVALIDATION'),session.get('headers'),username,password,CheckCode)
+#
+#         if loginResult != 'yes':
+#             return render_template('login_error.html', loginError = loginResult,before='course')
+#
+#         plan = auth.trainPlan(session['headers'],loginResult)
+#
+#         return render_template('planTrain.html',plan = plan)
+#     # return render_template('query.html',form=form,randomNum=str(session['randomNum']))
 
 
 @application.route('/studyCompare',methods=['GET','POST'])
@@ -168,7 +161,6 @@ def chat():
         people = request.form.get('people')
         return people
     return render_template('chat.html')
-
 
 
 @application.route('/about')

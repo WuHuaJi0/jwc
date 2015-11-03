@@ -5,6 +5,7 @@ import urllib
 from bs4 import BeautifulSoup
 from PIL import Image
 import random
+import re
 
 ctgu_request = requests.session()
 
@@ -83,16 +84,21 @@ def login(__VIEWSTATE,__EVENTVALIDATION,headers,username,password,CheckCode):
         hander.close()
         return 'yes'
 
+
 # 获取成绩
 def getGrade(headers,loginResult):
     if loginResult == 'yes':
         try:
             Grade_url = 'http://210.42.38.26:84/jwc_glxt/Student_Score/Score_Query.aspx'
             result  = ctgu_request.get(Grade_url,headers=headers)
+
+            # 获取成绩
             if result:
                 soup = BeautifulSoup(result.text)
                 tr_title = soup.find(attrs={'class':'HeaderStyle'})
                 text  = tr_title.find_next_siblings()
+
+                userinfo =  soup.find(attrs={'id':'ctl00_lblSignIn'})
 
                 tiaomu2012 = []
                 tiaomu2013 = []
@@ -109,7 +115,7 @@ def getGrade(headers,loginResult):
                     if tiaomu.td.string == '2015':
                         tiaomu2015.append(tiaomu)
 
-                return (tiaomu2012,tiaomu2013,tiaomu2014,tiaomu2015)
+                return (tiaomu2012,tiaomu2013,tiaomu2014,tiaomu2015,userinfo.string)
 
             else:
                 return 'error'
@@ -120,7 +126,8 @@ def getGrade(headers,loginResult):
     else:
         return loginResult
 
-# 获取总学分
+
+# 获取总学分、学业预警
 def warnning(headers,loginResult):
     if loginResult == 'yes':
         try:
@@ -130,8 +137,11 @@ def warnning(headers,loginResult):
                 soup = BeautifulSoup(result.text)
 
                 span = soup.find(attrs={'id':'ctl00_MainContentPlaceHolder_Label1'})
+                temp = span.decode('utf8')
+                pattern = re.compile(r'^至目前你已获得\d+ 学分$')
+                match = pattern.match(temp)
 
-                return span
+                return match
             else:
                 return 'error'
         except:

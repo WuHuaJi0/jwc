@@ -1,8 +1,14 @@
 {% extends "bootstrap/base.html" %}
 
 {% block title %}ctgu.ren{% endblock %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 
+{% block styles %}
+    <!-- Bootstrap -->
+    <link href="{{bootstrap_find_resource('css/bootstrap.css', cdn='bootstrap')}}" rel="stylesheet">
+    <link rel="stylesheet" href="../static/css/style.css">
 
+{% endblock styles %}
 {% block navbar %}
 <div class="navbar navbar-inverse" role="navigation">
     <div class="container">
@@ -21,7 +27,6 @@
                 <li><a href="{{ url_for('mask') }}">查成绩</a></li>
                 <li><a href="{{ url_for('course') }}">学业预警 </a></li>
                 <li><a href="{{ url_for('studyCompare') }}">学业对比 </a></li>
-                <li><a href="{{ url_for('planTrain') }}">培养计划 </a></li>
                 <li><a href="{{ url_for('about') }}">关于</a></li>
             </ul>
         </div>
@@ -34,9 +39,31 @@
 
 <div class="container">
     {% block page_content %}{% endblock %}
+    <div class="share">
+        <script type="text/javascript">
+            (function(){
+            var p = {
+            url:location.href,
+            showcount:'1',
+            desc:'这是一个描述',
+            summary:'来这里查询成绩、学分、一目了然',
+            title:'三大人',
+            site:'http://ctgu.ren',
+            pics:'',
+            style:'201',
+            width:113,
+            height:39
+            };
+            var s = [];
+            for(var i in p){
+                s.push(i + '=' + encodeURIComponent(p[i]||''));
+            }
+            document.write(['<a version="1.0" class="qzOpenerDiv" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?',s.join('&'),'" target="_blank">分享</a>'].join(''));
+            })();
+        </script>
+<script src="http://qzonestyle.gtimg.cn/qzone/app/qzlike/qzopensl.js#jsdate=20111201" charset="utf-8"></script>
+    </div>
 </div>
-
-
 
 <div style="display: none">
 <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1256620769'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1256620769' type='text/javascript'%3E%3C/script%3E"));</script>
