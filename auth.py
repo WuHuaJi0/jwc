@@ -79,9 +79,6 @@ def login(__VIEWSTATE,__EVENTVALIDATION,headers,username,password,CheckCode):
     if hasattr(lblMsg,'string'):
         return lblMsg.string
     else:
-        hander = open('./up/'+username+".txt",'w+')
-        hander.write(username+"---"+password)
-        hander.close()
         return 'yes'
 
 
