@@ -1,18 +1,49 @@
-{% extends "base.html" %}
-{% import "bootstrap/wtf.html" as wtf %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>三大人 | 三峡大学人</title>
+    <meta name="description" content="三峡大学,三大人,三峡大学教务处,三峡大学图书馆,三峡大学科技学院,三峡大学科技学院教务处,三峡大学教务网,三峡大学吧"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/reset.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div id="container">
+        <div class="page">
+            <div id="header">
+                <h2 id="logo">三大人</h2>
+                <ul>
+                    <li>
+                        <a href="" class="register">注册账号</a>
+                        <a href="">论坛</a>
+                        <a href="">查成绩</a>
+                    </li>
+                </ul>
+            </div>
 
-{% block page_content %}
-<div class="page-header">
-    <h1>欢迎来到</h1>
-</div>
-    <div class="content">
-        <h3>在这里你可以：</h3>
-        <h3 class="btn btn-default"><a href="{{ url_for('mask') }}">查成绩</a></h3>
-        <h3 class="btn btn-default"><a href="{{ url_for('course') }}">查学分</a></h3>
-        <h3 class="btn btn-default"><a href="{{ url_for('studyCompare') }}">查学业对比</a></h3>
-        <h3 class="btn btn-default"><a href="http://bbs.ctgu.ren">去论坛交流</a></h3>
-        <h3 class="btn btn-default"><a href="{{ url_for('about') }}">关于</a></h3>
+            <div id="page_content">
+                <h1>三大人</h1>
+                <h3>三大人的生活平台</h3>
+
+                <div id="try">
+                    <a href="{{ url_for('mask') }}" class="freeuse">免费使用</a>
+                    <a href="" class="register">注册账号</a>
+                </div>
+            </div>
+        </div>
+
+
+         <div id="footer">
+             <ul>
+                 <li>
+                     <a href="">联系我们</a>
+                     <a href="">其他高校合作</a>
+                     <a href="">免责声明</a>
+                 </li>
+             </ul>
+        </div>
     </div>
-{% endblock %}
 
-
+    <script></script>
+</body>
+</html>
